@@ -51,14 +51,14 @@ class UserController extends AbstractController
     /**
      * @Route("/users/{id}/edit", name="user_edit")
      */
-    public function editAction(User $user, Request $request,ManagerRegistry $doctrine)
+    public function editAction(User $user, Request $request,ManagerRegistry $doctrine,UserPasswordHasherInterface   $encoder)
     {
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
+            $password =  $encoder->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
 
             $doctrine->getManager()->flush();
