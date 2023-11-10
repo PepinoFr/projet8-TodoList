@@ -28,6 +28,8 @@ class TaskController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $doctrine->getManager();
 
+            $user = $this->getUser();
+            $task->setUser($user);
             $em->persist($task);
             $em->flush();
 
@@ -45,7 +47,6 @@ class TaskController extends AbstractController
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $doctrine->getManager()->flush();
 
