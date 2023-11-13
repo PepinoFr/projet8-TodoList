@@ -44,6 +44,9 @@ class TaskController extends AbstractController
     #[Route('/tasks/{id}/edit', name: 'task_edit')]
     public function editAction(Task $task, Request $request,ManagerRegistry $doctrine)
     {
+        if ($this->getUser()->getId() != $task->getUser()->getId() && !$this->isGranted('ROLE_ADMIN')) {
+            return $this->render('default/index.html.twig');
+        }
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
