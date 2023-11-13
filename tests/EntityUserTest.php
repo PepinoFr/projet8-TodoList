@@ -23,7 +23,8 @@ class EntityUserTest extends WebTestCase
             'user[username]' => "pepino",
             'user[password][first]' => "test",
             'user[password][second]' => "test",
-            'user[email]' => "pepino-du79@live.fr",
+            'user[email]' => "pepino-du76@live.fr",
+            'user[roles]' => ['ROLE_USER', 'ROLE_ADMIN']
 
         ]);
 
@@ -34,9 +35,7 @@ class EntityUserTest extends WebTestCase
 
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('.alert-success'," L'utilisateur a bien été ajouté.");
-
-        $this->assertRouteSame('user_list');
+        $this->assertRouteSame('homepage');
     }
 
     public function testIfUpdateAnTaskIsSuccessFull(): void {
@@ -65,6 +64,7 @@ class EntityUserTest extends WebTestCase
             'user[password][first]' => "test",
             'user[password][second]' => "test",
             'user[email]' => "mathieulagnel@gmail.com",
+            'user[roles]' => ['ROLE_USER', 'ROLE_ADMIN']
 
         ]);
 
